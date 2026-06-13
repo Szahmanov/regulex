@@ -37,8 +37,8 @@ app.delete('/api/unsubscribe', (req, res) => {
 });
 
 // Check every hour — run agent for users whose alert_hour matches current hour
-cron.schedule('0 * * * *', () => {
-  const hour = new Date().getHours();
+cron.schedule('* * * * *', () => {
+  runAgentLoop(new Date().getHours());
   console.log(`🕐 Проверка в ${hour}:00`);
   runAgentLoop(hour);
 });
