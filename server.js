@@ -14,10 +14,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/api/alerts', (req, res) => {
-  const email = req.query.email;
-const alerts = email
-  ? db.prepare('SELECT * FROM alerts WHERE topic IN (SELECT topics FROM users WHERE email = ?) ORDER BY created_at DESC LIMIT 50').all(email)
-  : db.prepare('SELECT * FROM alerts ORDER BY created_at DESC LIMIT 50').all();
+  const alerts = db.prepare('SELECT * FROM alerts ORDER BY created_at DESC LIMIT 50').all();
   res.json(alerts);
 });
 
