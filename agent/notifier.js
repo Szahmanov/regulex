@@ -1,17 +1,9 @@
-const nodemailer = require('nodemailer');
+const { Resend } = require('resend');
 
-let transporter;
-function getTransporter() {
-  if (!transporter) {
-    transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-      }
-    });
-  }
-  return transporter;
+let resend;
+function getResend() {
+  if (!resend) resend = new Resend(process.env.RESEND_API_KEY);
+  return resend;
 }
 
 function severityColor(s) {
@@ -65,14 +57,11 @@ async function sendDailyDigest(to, topics, newAlerts, recentAlerts) {
       <div style="color:#6b7280;font-size:13px;">Автономен регулаторен мониторинг by StaGove</div>
       <div style="color:#4b5563;font-size:12px;margin-top:4px;">${date}</div>
     </div>
-
     <div style="background:#111827;border-radius:14px;padding:24px;margin-bottom:20px;">
       <div style="color:#6b7280;font-size:13px;margin-bottom:16px;">📌 Следени теми: <strong style="color:#a5b4fc;">${topics}</strong></div>
       ${newSection}
     </div>
-
     ${recentSection ? `<div style="background:#111827;border-radius:14px;padding:24px;">${recentSection}</div>` : ''}
-
     <div style="text-align:center;margin-top:24px;color:#374151;font-size:12px;">
       Regulex by StaGove · Автономен AI агент
     </div>
@@ -80,8 +69,8 @@ async function sendDailyDigest(to, topics, newAlerts, recentAlerts) {
 </body>
 </html>`;
 
-  await getTransporter().sendMail({
-    from: `"Regulex by StaGove" <${process.env.EMAIL_USER}>`,
+  await getResend().emails.send({
+    from: 'Regulex by StaGove <onboarding@resend.dev>',
     to,
     subject,
     html
