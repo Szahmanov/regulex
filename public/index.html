@@ -9,100 +9,52 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Segoe UI', system-ui, sans-serif; background: #0a0a0f; color: #e0e0e0; min-height: 100vh; }
-
-    .header {
-      background: #111827;
-      border-bottom: 1px solid #1f2937;
-      padding: 18px 24px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
+    .header { background: #111827; border-bottom: 1px solid #1f2937; padding: 18px 24px; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 10; }
     .logo { font-size: 22px; font-weight: 800; color: #6366f1; letter-spacing: -0.5px; }
     .tagline { font-size: 12px; color: #6b7280; }
     .badge { margin-left: auto; background: #6366f120; color: #a5b4fc; padding: 4px 10px; border-radius: 20px; font-size: 12px; }
-
     .container { max-width: 860px; margin: 0 auto; padding: 32px 20px; }
-
-    .card {
-      background: #111827;
-      border: 1px solid #1f2937;
-      border-radius: 16px;
-      padding: 28px;
-      margin-bottom: 24px;
-    }
+    .card { background: #111827; border: 1px solid #1f2937; border-radius: 16px; padding: 28px; margin-bottom: 24px; }
     .card h2 { font-size: 17px; font-weight: 700; color: #f9fafb; margin-bottom: 20px; }
-
     label { display: block; font-size: 13px; color: #9ca3af; margin-bottom: 6px; margin-top: 14px; }
     label:first-of-type { margin-top: 0; }
-
-    input, select {
-      width: 100%;
-      padding: 11px 14px;
-      background: #1f2937;
-      border: 1px solid #374151;
-      border-radius: 10px;
-      color: #e0e0e0;
-      font-size: 14px;
-      outline: none;
-      transition: border-color 0.2s;
-    }
+    input, select { width: 100%; padding: 11px 14px; background: #1f2937; border: 1px solid #374151; border-radius: 10px; color: #e0e0e0; font-size: 14px; outline: none; transition: border-color 0.2s; }
     input:focus, select:focus { border-color: #6366f1; }
-
-    .hint { font-size: 12px; color: #4b5563; margin-top: 5px; }
-
-    .btn {
-      width: 100%;
-      padding: 13px;
-      background: #6366f1;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-      margin-top: 20px;
-      transition: background 0.2s;
-    }
+    .topics-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+    .chip { padding: 6px 12px; background: #1f2937; border: 1px solid #374151; border-radius: 20px; font-size: 12px; color: #9ca3af; cursor: pointer; transition: all 0.15s; user-select: none; }
+    .chip:hover { border-color: #6366f1; color: #a5b4fc; }
+    .chip.active { background: #6366f120; border-color: #6366f1; color: #a5b4fc; }
+    .topics-input-wrap { position: relative; }
+    .topics-input-wrap input { padding-right: 80px; }
+    .clear-btn { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #6b7280; font-size: 12px; cursor: pointer; padding: 4px 8px; }
+    .clear-btn:hover { color: #e0e0e0; }
+    .btn { width: 100%; padding: 13px; background: #6366f1; color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 20px; transition: background 0.2s; }
     .btn:hover { background: #4f46e5; }
     .btn:disabled { background: #374151; color: #6b7280; cursor: not-allowed; }
-
-    .alert-card {
-      background: #1f2937;
-      border-radius: 10px;
-      padding: 16px;
-      margin-bottom: 12px;
-      border-left: 4px solid #6366f1;
-    }
+    .alerts-filter { display: flex; gap: 10px; margin-bottom: 16px; }
+    .alerts-filter input { flex: 1; }
+    .filter-btn { padding: 11px 16px; background: #6366f1; color: white; border: none; border-radius: 10px; font-size: 14px; cursor: pointer; white-space: nowrap; }
+    .alert-card { background: #1f2937; border-radius: 10px; padding: 16px; margin-bottom: 12px; border-left: 4px solid #6366f1; }
     .alert-card.high { border-left-color: #ef4444; }
     .alert-card.medium { border-left-color: #f59e0b; }
     .alert-card.low { border-left-color: #10b981; }
-
     .alert-title { font-weight: 600; font-size: 14px; margin-bottom: 6px; color: #f9fafb; }
     .alert-summary { font-size: 13px; color: #9ca3af; line-height: 1.5; margin-bottom: 8px; }
     .alert-meta { font-size: 12px; color: #6b7280; display: flex; gap: 10px; flex-wrap: wrap; }
     .severity-висока { color: #ef4444; }
     .severity-средна { color: #f59e0b; }
     .severity-ниска { color: #10b981; }
-
     .empty { text-align: center; padding: 40px 20px; color: #4b5563; }
     .empty .icon { font-size: 40px; margin-bottom: 12px; }
-
     .success-msg { background: #10b98120; border: 1px solid #10b981; color: #6ee7b7; padding: 12px 16px; border-radius: 10px; margin-top: 16px; font-size: 14px; display: none; }
     .error-msg { background: #ef444420; border: 1px solid #ef4444; color: #fca5a5; padding: 12px 16px; border-radius: 10px; margin-top: 16px; font-size: 14px; display: none; }
-
     .how-it-works { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
     .step { background: #1f2937; border-radius: 12px; padding: 18px; text-align: center; }
     .step .num { font-size: 24px; margin-bottom: 8px; }
     .step .title { font-size: 13px; font-weight: 600; color: #f9fafb; margin-bottom: 4px; }
     .step .desc { font-size: 12px; color: #6b7280; }
-
-    @media (max-width: 600px) {
-      .how-it-works { grid-template-columns: 1fr; }
-    }
+    .section-label { font-size: 12px; color: #6b7280; margin-bottom: 8px; }
+    @media (max-width: 600px) { .how-it-works { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -115,40 +67,26 @@
   </div>
 
   <div class="container">
-
-    <!-- How it works -->
     <div class="card">
       <h2>Как работи</h2>
       <div class="how-it-works">
-        <div class="step">
-          <div class="num">📌</div>
-          <div class="title">Избираш теми</div>
-          <div class="desc">НАП, ДДС, осигуровки — каквото засяга бизнеса ти</div>
-        </div>
-        <div class="step">
-          <div class="num">🤖</div>
-          <div class="title">Агентът следи</div>
-          <div class="desc">Сканира стотици източници всеки ден автоматично</div>
-        </div>
-        <div class="step">
-          <div class="num">📧</div>
-          <div class="title">Получаваш имейл</div>
-          <div class="desc">В избрания от теб час — с анализ и препоръки</div>
-        </div>
+        <div class="step"><div class="num">📌</div><div class="title">Избираш теми</div><div class="desc">НАП, ДДС, осигуровки — каквото засяга бизнеса ти</div></div>
+        <div class="step"><div class="num">🤖</div><div class="title">Агентът следи</div><div class="desc">Сканира стотици източници всеки ден автоматично</div></div>
+        <div class="step"><div class="num">📧</div><div class="title">Получаваш имейл</div><div class="desc">В избрания от теб час — с анализ и препоръки</div></div>
       </div>
     </div>
 
-    <!-- Registration -->
     <div class="card">
       <h2>Абонирай се за алерти</h2>
-
       <label>Имейл адрес</label>
       <input type="email" id="email" placeholder="name@company.com">
-
       <label>Теми за следене</label>
-      <input type="text" id="topics" placeholder="НАП, ДДС, осигуровки, Държавен вестник">
-      <div class="hint">Въведи теми разделени със запетая. Пример: НАП, трудово право, ДДС</div>
-
+      <div class="section-label">Кликни за бърз избор:</div>
+      <div class="topics-grid" id="chips-container"></div>
+      <div class="topics-input-wrap">
+        <input type="text" id="topics" placeholder="или напиши своя тема...">
+        <button class="clear-btn" onclick="clearTopics()">Изчисти</button>
+      </div>
       <label>Час за получаване на имейл</label>
       <select id="alert_hour">
         <option value="6">06:00</option>
@@ -161,101 +99,109 @@
         <option value="18">18:00</option>
         <option value="20">20:00</option>
       </select>
-
       <button class="btn" id="subscribe-btn" onclick="register()">Абонирай се безплатно</button>
       <div class="success-msg" id="success-msg">✅ Успешно абониран! Ще получаваш дайджест всеки ден в избрания час.</div>
       <div class="error-msg" id="error-msg"></div>
     </div>
 
-    <!-- Alerts -->
     <div class="card">
       <h2>Последни регулаторни промени</h2>
+      <div class="alerts-filter">
+        <input type="email" id="filter-email" placeholder="Въведи имейла си за да видиш твоите алерти">
+        <button class="filter-btn" onclick="loadAlerts()">Покажи</button>
+      </div>
       <div id="alerts-container">
-        <div class="empty"><div class="icon">⏳</div>Зареждане...</div>
+        <div class="empty"><div class="icon">🔍</div>Въведи имейла си за да видиш твоите алерти.</div>
       </div>
     </div>
-
   </div>
 
   <script>
+    const TOPICS = [
+      { label: '🏛 НАП', value: 'НАП' },
+      { label: '💰 ДДС', value: 'ДДС' },
+      { label: '👷 Осигуровки', value: 'осигуровки' },
+      { label: '📋 Държавен вестник', value: 'Държавен вестник' },
+      { label: '⚖️ Трудово право', value: 'трудово право' },
+      { label: '🏦 БНБ', value: 'БНБ' },
+      { label: '📊 КФН', value: 'КФН' },
+      { label: '🛡 КЗП', value: 'КЗП' },
+      { label: '🔒 GDPR', value: 'GDPR лични данни' },
+      { label: '🏗 Строителство', value: 'ЗУТ строителство' },
+      { label: '🚗 Транспорт', value: 'транспорт КАТ' },
+      { label: '🌿 РИОСВ', value: 'РИОСВ екология' },
+      { label: '🍽 БАБХ', value: 'БАБХ хранителна безопасност' },
+      { label: '📑 Обществени поръчки', value: 'обществени поръчки' },
+      { label: '💼 Търговски закон', value: 'търговски закон' },
+      { label: '🇪🇺 EU директиви', value: 'EU директива регламент' },
+      { label: '💊 Здравеопазване', value: 'здравеопазване МЗ' },
+      { label: '🎓 Образование', value: 'образование МОН' },
+    ];
+
+    let selectedTopics = new Set();
+
+    function renderChips() {
+      const container = document.getElementById('chips-container');
+      container.innerHTML = TOPICS.map(t => `
+        <div class="chip ${selectedTopics.has(t.value) ? 'active' : ''}" onclick="toggleChip('${t.value}', this)">${t.label}</div>
+      `).join('');
+    }
+
+    function toggleChip(value, el) {
+      if (selectedTopics.has(value)) { selectedTopics.delete(value); el.classList.remove('active'); }
+      else { selectedTopics.add(value); el.classList.add('active'); }
+      updateTopicsInput();
+    }
+
+    function updateTopicsInput() {
+      const manual = document.getElementById('topics').value.split(',').map(t => t.trim()).filter(t => t && !Array.from(selectedTopics).includes(t));
+      document.getElementById('topics').value = [...selectedTopics, ...manual].join(', ');
+    }
+
+    function clearTopics() {
+      selectedTopics.clear();
+      document.getElementById('topics').value = '';
+      renderChips();
+    }
+
     async function register() {
       const email = document.getElementById('email').value.trim();
       const topics = document.getElementById('topics').value.trim();
       const alert_hour = parseInt(document.getElementById('alert_hour').value);
-
       document.getElementById('success-msg').style.display = 'none';
       document.getElementById('error-msg').style.display = 'none';
-
-      if (!email || !topics) {
-        showError('Моля, въведи имейл и поне една тема.');
-        return;
-      }
-
+      if (!email || !topics) { showError('Моля, въведи имейл и поне една тема.'); return; }
       const btn = document.getElementById('subscribe-btn');
-      btn.disabled = true;
-      btn.textContent = 'Регистрация...';
-
+      btn.disabled = true; btn.textContent = 'Регистрация...';
       try {
-        const res = await fetch('/api/register', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, topics, alert_hour })
-        });
+        const res = await fetch('/api/register', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, topics, alert_hour }) });
         const data = await res.json();
-        if (data.success) {
-          document.getElementById('success-msg').style.display = 'block';
-          document.getElementById('email').value = '';
-          document.getElementById('topics').value = '';
-        } else {
-          showError(data.error || 'Грешка при регистрация.');
-        }
-      } catch (e) {
-        showError('Грешка при свързване със сървъра.');
-      }
-
-      btn.disabled = false;
-      btn.textContent = 'Абонирай се безплатно';
+        if (data.success) { document.getElementById('success-msg').style.display = 'block'; document.getElementById('filter-email').value = email; loadAlerts(); }
+        else { showError(data.error || 'Грешка при регистрация.'); }
+      } catch (e) { showError('Грешка при свързване със сървъра.'); }
+      btn.disabled = false; btn.textContent = 'Абонирай се безплатно';
     }
 
-    function showError(msg) {
-      const el = document.getElementById('error-msg');
-      el.textContent = '❌ ' + msg;
-      el.style.display = 'block';
-    }
+    function showError(msg) { const el = document.getElementById('error-msg'); el.textContent = '❌ ' + msg; el.style.display = 'block'; }
 
     async function loadAlerts() {
+      const email = document.getElementById('filter-email').value.trim();
       const container = document.getElementById('alerts-container');
+      if (!email) { container.innerHTML = '<div class="empty"><div class="icon">🔍</div>Въведи имейла си за да видиш твоите алерти.</div>'; return; }
+      container.innerHTML = '<div class="empty">Зареждане...</div>';
       try {
-        const res = await fetch('/api/alerts');
+        const res = await fetch(`/api/alerts?email=${encodeURIComponent(email)}`);
         const alerts = await res.json();
-        if (!alerts.length) {
-          container.innerHTML = '<div class="empty"><div class="icon">🔍</div>Агентът все още не е открил промени. Проверява всеки ден автоматично.</div>';
-          return;
-        }
+        if (!alerts.length) { container.innerHTML = '<div class="empty"><div class="icon">⏳</div>Все още няма алерти. Агентът сканира автоматично.</div>'; return; }
         container.innerHTML = alerts.map(a => {
           const cls = a.severity === 'висока' ? 'high' : a.severity === 'средна' ? 'medium' : 'low';
-          return `<div class="alert-card ${cls}">
-            <div class="alert-title">${a.title}</div>
-            <div class="alert-summary">${a.summary}</div>
-            <div class="alert-meta">
-              <span>${a.source}</span>
-              <span class="severity-${a.severity}">● ${a.severity} важност</span>
-              <span>${a.topic}</span>
-              <span>${new Date(a.created_at).toLocaleDateString('bg-BG')}</span>
-            </div>
-          </div>`;
+          return `<div class="alert-card ${cls}"><div class="alert-title">${a.title}</div><div class="alert-summary">${a.summary}</div><div class="alert-meta"><span>${a.source}</span><span class="severity-${a.severity}">● ${a.severity} важност</span><span>${a.topic}</span><span>${new Date(a.created_at).toLocaleDateString('bg-BG')}</span></div></div>`;
         }).join('');
-      } catch (e) {
-        container.innerHTML = '<div class="empty">Грешка при зареждане.</div>';
-      }
+      } catch (e) { container.innerHTML = '<div class="empty">Грешка при зареждане.</div>'; }
     }
 
-    loadAlerts();
-    setInterval(loadAlerts, 60000);
-
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/sw.js');
-    }
+    renderChips();
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js');
   </script>
 </body>
 </html>
